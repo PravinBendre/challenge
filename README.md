@@ -4,22 +4,18 @@ The objective of this project is to develop a highly concurrent API for bank acc
 
 Swagger is used for document and testing rest API following would be the Swagger URLs :-
 
-1. http://localhost:18080/swagger-resources
-
-2. http://localhost:18080/v2/api-docs
+1. http://localhost:18080/api-docs
 
 3. http://localhost:18080/swagger-ui.html
 
 
 For observable application, Actuator is used.
 
-1. http://localhost:18080/health
+1. http://localhost:18080/actuator/health
 
-2. http://localhost:18080/info
+2. http://localhost:18080/actuator/info
 
-3. http://localhost:18080/metrics
-
-4. http://localhost:18080/trace
+3. http://localhost:18080/actuator/metrics
 
 Further Enhancements:-
 
