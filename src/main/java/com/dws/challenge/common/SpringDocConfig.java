@@ -20,6 +20,4 @@ public class SpringDocConfig {
                 .addServersItem(new Server().url("http://localhost:8080/").description("Account API"));
     }
 
-
-
 }
