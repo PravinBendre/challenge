@@ -4,53 +4,49 @@ The objective of this project is to develop a highly concurrent API for bank acc
 
 Swagger is used for document and testing rest API following would be the Swagger URLs :-
 
-http://localhost:18080/swagger-resources
+1. http://localhost:18080/swagger-resources
 
-http://localhost:18080/v2/api-docs
+2. http://localhost:18080/v2/api-docs
 
-http://localhost:18080/swagger-ui.html
-
+3. http://localhost:18080/swagger-ui.html
 
 
 For observable application, Actuator is used.
 
-http://localhost:18080/health
+1. http://localhost:18080/health
 
-http://localhost:18080/info
+2. http://localhost:18080/info
 
-http://localhost:18080/metrics
+3. http://localhost:18080/metrics
 
-http://localhost:18080/trace
+4. http://localhost:18080/trace
 
 Further Enhancements:-
 
-1. Field validation message and exception messages are hard coded that can be moved to external config file.
+1. Externalize Validation and Exception Messages: Currently, field validation and exception messages are hardcoded. These should be moved to an external configuration file for easier maintenance and localization.
 
-2. Configure spring security with OAuth2 to prohibit unauthorized access and indentify the client device.
+2. Configure Spring Security with OAuth2: Implement OAuth2 for Spring Security to prevent unauthorized access and identify client devices.
 
-3. Spring data rest can be used to provide a solid foundation on which to expose CRUD operation to our Account repository managed entities using plain HTTP Rest Semantics. HATEOAS provides info to navigate the REST interface dynamically by including hypermedia links with response.
+3. Leverage Spring Data REST for CRUD Operations: Spring Data REST can be used to expose basic CRUD operations on our Account repository-managed entities via HTTP REST semantics. HATEOAS can be utilized to provide dynamic navigation through the API by including hypermedia links in the responses.
 
-4. For the moment Notification Service is implemented as Async execution which can be expose as microservice and Messaging can be use for communication.
+4. Async Notification Service: The Notification Service is currently implemented with asynchronous execution, but it can be exposed as a microservice. Messaging systems can be used for communication between services.
 
-5. Basic Swagger document is used that can be customize.
+5. Customize Swagger Documentation: The basic Swagger documentation should be customized to provide more detailed API information, ensuring proper interaction and clarity for consumers.
 
-6. Actuator enhancement :-
+6. Enhance Spring Actuator:
 
-    1. Spring actuator custom HealthIndicator can be implemented to get detail custom info.
-    2. CounterService , GuageService or Dropwizard can be used to count no of transactions done and time taken by each transaction.
-    3. Metrics can be exported to external db like Redis,Open TSDB, Statsd, JMX ,Dropwizard.
+   1. Custom Health Indicator: Implement a custom Spring Actuator HealthIndicator to provide detailed health checks for the system.
+   2. Metrics Collection: Utilize services like CounterService, GuageService, or Dropwizard to track the number of transactions and their respective execution times.
+   3. Export Metrics: Metrics should be exported to external systems like Redis, OpenTSDB, StatsD, JMX, or Dropwizard for better observability and analysis.
+   
+7. Dynamic Scaling with Service Discovery: To scale based on concurrency and resource utilization, the application should automatically add or remove instances. A static IP configuration won't work for this. Service discovery (e.g., using Consul) should be implemented so that services can dynamically locate one another, providing a reliable source of truth for available services.
 
-7. Based on concurrency and resource utilization, our transaction app should be able to scale out by adding more instances and once load reduces should be shut down the additional instance. To implement the same hard coding of IP isn't going to work. We will need a discovery(Consul) mechanism that services can use to find each other. This means having a source of truth for what services are available.
+8. API Gateway: Use an API Gateway to handle client-side load balancing, circuit breakers, and other requirements like security, API translation, and protocol translation. This keeps mid-tier services free from these concerns, preventing the need for frequent redeploys. The API Gateway can proxy requests to microservices, and in some cases, microproxying combined with HTTPS and authentication might suffice for specific clients.
 
-8. We can use API Gateway :API gateways(circuit breakers, client-side load balancing) for various reasons like to have logical place to insert any client-specific requirements (security, API translation, protocol translation) and keep the mid-tier services free of this burdensome logic (as well as free from associated redeploys!).
+9. Switch to Feign Client: Replace RestTemplate with Feign Client, a declarative web service client that simplifies writing web service clients. Feign supports annotations, custom encoders and decoders, and integrates with Spring Cloud for load balancing using Ribbon and Eureka.
 
-    Proxy requests from an edge-service to mid-tier services with a microproxy. For some classes of clients, a microproxy and security (HTTPS, authentication) might be enough.
+10. CI/CD Pipeline: Implement a Continuous Integration and Continuous Deployment (CI/CD) pipeline to automate the build, integration testing, and deployment processes for faster and more reliable releases.
 
-9. We can replace RestTemplate with Feign Client, it is a declarative web service client. It makes writing web service clients easier. It has pluggable annotation support including Feign annotations and JAX-RS annotations. Feign also supports pluggable encoders and decoders. Spring Cloud adds support for Spring MVC annotations and for using the same HttpMessageConverters used by default in Spring Web. Spring Cloud integrates Ribbon and Eureka to provide a load balanced http client when using Feign.
+11. Stateless Application: The application should be stateless. If state management is necessary, external caches or databases should be used for storage instead of maintaining state within the application itself.
 
-10. We can create CI/CD pipeline to continuous build, integration test and deployment.
-
-11. Stateless application :  should not manage any state if state management is required then it should be managed it in external cache or DB.
-
-12. Scalability : we should be able to horizontally scale out the application by adding more resources not the vertically scale up application by adding more resource. By deploying microservices using container it is easy to scale out a app.
-
+12. Scalability through Horizontal Scaling: The application should be designed for horizontal scalability, allowing more instances to be added as needed. By using containerized microservices, horizontal scaling becomes easier and more efficient than relying on vertical scaling (i.e., adding more resources to a single instance).
